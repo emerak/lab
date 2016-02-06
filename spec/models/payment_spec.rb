@@ -49,8 +49,8 @@ describe Payment do
   end
 
   it "assings bin number with first 6 card digits" do
-    payment =  build(:payment, credit_card_number: '12345678912394', expiration_year: '16')
-    bin_number = "123456"
+    payment =  build(:payment, credit_card_number: '42345678912394', expiration_year: '16')
+    bin_number = "423456"
     payment.save
     expect(payment.bin_number).to eql bin_number
   end
@@ -65,5 +65,12 @@ describe Payment do
     payment =  build(:payment, credit_card_number: '12345678912394', expiration_year: '16', amount: 100)
     payment.save
     expect(payment.amount).to eql 100.0
+  end
+
+  it "is invalid if network does not match with credit card number" do
+    payment =  build(:payment, card_network: "visa", credit_card_number: '12345678912394', expiration_year: '16', amount: 100)
+    payment.save
+    expect(payment.errors).to have_at_least(1).error_on(:card_network)
+    expect(payment.errors_on(:card_network)).to include("Invalid card network")
   end
 end

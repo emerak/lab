@@ -4,6 +4,7 @@ class Payment < Base
                 :credit_card_number
 
   MONTHS = ['01', '02', '03', '02', '05', '06', '07', '08', '09', '10', '11', '12']
+  CARD_NETWORKS = ['visa', 'mc', 'amex']
 
   field :cardholder_name, type: String
   field :bin_number, type: String
@@ -21,6 +22,7 @@ class Payment < Base
   validates_length_of :expiration_year, minimum: 2, maximum: 2
 
   validates_inclusion_of :expiration_month, in: MONTHS
+  validates_inclusion_of :card_network, in: CARD_NETWORKS
 
   validates_format_of :credit_card_number, with: /\A[0-9]*\z/
   validates_format_of :expiration_month, with: /\A\d{2}\z/
@@ -33,7 +35,10 @@ class Payment < Base
                         :expiration_year,
                         :card_security_code
 
-  validate :expiration_date
+  validate :expiration_date,
+           :card_network_validator
+
+  #Callbacks
 
   before_create :assign_bin_number
 
@@ -47,4 +52,18 @@ class Payment < Base
     errors.add(:expiration_year,  "Expired date")  if Time.now.strftime('%y') > expiration_year
   end
 
+  def card_network_validator
+    errors.add(:card_network, "Invalid card network") unless valid_network?
+  end
+
+  def valid_network?
+    case card_network
+    when 'amex'
+      [34,37].includes?(credit_card_number[0..1].to_i)
+    when 'mc'
+      [51..55].includes?(credit_card_number[0..1].to_i)
+    when 'visa'
+      credit_card_number[0].to_i == 4
+    end
+  end
 end
