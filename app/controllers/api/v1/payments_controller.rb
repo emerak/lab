@@ -2,9 +2,9 @@ class Api::V1::PaymentsController < Api::V1::BaseController
   def create
     @payment = Payment.new(payment_params)
     if @payment.save
-      respond_with @payment, status: :created
+      respond_with @payment, status: :created, location: api_v1_payments_url(@payment)
     else
-      respond_with @payment, status: :unprocessable_entity
+      respond_with :api, :v1, @payment, status: :unprocessable_entity, location: api_v1_payments_url(@payment)
     end
 
   end
