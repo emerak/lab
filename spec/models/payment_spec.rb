@@ -54,4 +54,16 @@ describe Payment do
     payment.save
     expect(payment.bin_number).to eql bin_number
   end
+
+  it "is paid if saved successfully" do
+    payment =  build(:payment, credit_card_number: '12345678912394', expiration_year: '16')
+    payment.save
+    expect(payment.status).to eql "paid"
+  end
+
+  it "is valid when amount is a number" do
+    payment =  build(:payment, credit_card_number: '12345678912394', expiration_year: '16', amount: 100)
+    payment.save
+    expect(payment.amount).to eql 100.0
+  end
 end

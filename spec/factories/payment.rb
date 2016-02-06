@@ -5,6 +5,7 @@ FactoryGirl.define do
     expiration_month    '08'
     expiration_year     '20'
     card_security_code  '1111'
+    amount              20000
   end
 
 end

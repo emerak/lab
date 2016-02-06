@@ -12,9 +12,8 @@ class Payment < Base
   field :card_type, type: String
   field :card_network, type: String
   field :card_last_numbers, type: String
-  field :amount, type: Integer
-  field :status, type: String
-  field :status, type: String
+  field :amount, type: Float
+  field :status, type: String, default: "paid"
 
   #Validations
   validates_length_of :credit_card_number, minimum: 13, maximum: 16
@@ -26,6 +25,8 @@ class Payment < Base
   validates_format_of :credit_card_number, with: /\A[0-9]*\z/
   validates_format_of :expiration_month, with: /\A\d{2}\z/
   validates_format_of :expiration_year, with: /\A\d{2}\z/
+
+  validates_numericality_of :amount
 
   validates_presence_of :cardholder_name,
                         :expiration_month,
