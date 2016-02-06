@@ -34,10 +34,12 @@ class Payment < Base
 
   validate :expiration_date
 
+  before_create :assign_bin_number
+
   private
 
-  def bin_number=(bin_number)
-    @bin_number = self.credit_card_number[0..5]
+  def assign_bin_number
+    self.bin_number = credit_card_number[0..5]
   end
 
   def expiration_date
