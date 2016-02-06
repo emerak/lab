@@ -30,7 +30,7 @@ class Payment < Base
   validates_format_of :expiration_month, with: /\A\d{2}\z/
   validates_format_of :expiration_year, with: /\A\d{2}\z/
   validates_format_of :card_security_code, with: /\A\d{3}\z/
-  validates_format_of :card_security_code, with: /\A\d{4}\z/
+  validates_format_of :card_last_numbers, with: /\A\d{4}\z/
 
   validates_numericality_of :amount
 
