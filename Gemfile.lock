@@ -55,6 +55,13 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.6.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.6.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
+    faker (1.6.1)
+      i18n (~> 0.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -136,6 +143,8 @@ GEM
       redis-store (~> 1.1.0)
     redis-store (1.1.7)
       redis (>= 2.2)
+    rspec-collection_matchers (1.1.2)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.4.2)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -175,6 +184,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
+    timecop (0.8.0)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
@@ -194,16 +204,20 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
+  factory_girl_rails
+  faker
   jbuilder (~> 2.0)
   jquery-rails
   mongoid (~> 5.1.0)
   pry
   rails (= 4.2.4)
   redis-rails
+  rspec-collection_matchers
   rspec-rails (~> 3.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
+  timecop
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
