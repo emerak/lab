@@ -20,6 +20,7 @@ class Payment < Base
   validates_length_of :credit_card_number, minimum: 13, maximum: 16
   validates_length_of :expiration_month, minimum: 2, maximum: 2
   validates_length_of :expiration_year, minimum: 2, maximum: 2
+  validates_length_of :card_security_code, minimum: 3, maximum: 3
 
   validates_inclusion_of :expiration_month, in: MONTHS
   validates_inclusion_of :card_network, in: CARD_NETWORKS
@@ -27,6 +28,7 @@ class Payment < Base
   validates_format_of :credit_card_number, with: /\A[0-9]*\z/
   validates_format_of :expiration_month, with: /\A\d{2}\z/
   validates_format_of :expiration_year, with: /\A\d{2}\z/
+  validates_format_of :card_security_code, with: /\A\d{3}\z/
 
   validates_numericality_of :amount
 
@@ -59,9 +61,9 @@ class Payment < Base
   def valid_network?
     case card_network
     when 'amex'
-      [34,37].includes?(credit_card_number[0..1].to_i)
+      [34,37].include?(credit_card_number[0..1].to_i)
     when 'mc'
-      [51..55].includes?(credit_card_number[0..1].to_i)
+      [51,52,53,54,55].include?(credit_card_number[0..1].to_i)
     when 'visa'
       credit_card_number[0].to_i == 4
     end
