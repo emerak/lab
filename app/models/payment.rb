@@ -21,6 +21,7 @@ class Payment < Base
   validates_length_of :expiration_month, minimum: 2, maximum: 2
   validates_length_of :expiration_year, minimum: 2, maximum: 2
   validates_length_of :card_security_code, minimum: 3, maximum: 3
+  validates_length_of :card_last_numbers, minimum: 4, maximum: 4
 
   validates_inclusion_of :expiration_month, in: MONTHS
   validates_inclusion_of :card_network, in: CARD_NETWORKS
@@ -29,6 +30,7 @@ class Payment < Base
   validates_format_of :expiration_month, with: /\A\d{2}\z/
   validates_format_of :expiration_year, with: /\A\d{2}\z/
   validates_format_of :card_security_code, with: /\A\d{3}\z/
+  validates_format_of :card_security_code, with: /\A\d{4}\z/
 
   validates_numericality_of :amount
 
