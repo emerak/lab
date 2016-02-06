@@ -1,4 +1,4 @@
-class PaymentsController < Api::V1::ApplicationController
+class Api::V1::PaymentsController < Api::V1::BaseController
   def create
     payment = Payment.new(payment_params)
     if payment.save
