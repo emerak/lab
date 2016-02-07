@@ -1,7 +1,13 @@
 class Payment < Base
 
+  include RedisPayment
+
   attr_accessor :card_security_code,
-                :credit_card_number
+                :credit_card_number,
+                :encrypted_card_security_code,
+                :encrypted_expiration_year,
+                :encrypted_expiration_month,
+                :encrypted_credit_card_number
 
   MONTHS = ['01', '02', '03', '02', '05', '06', '07', '08', '09', '10', '11', '12']
   CARD_NETWORKS = ['visa', 'mc', 'amex']
@@ -45,6 +51,7 @@ class Payment < Base
   #Callbacks
 
   before_create :assign_bin_number
+  after_save    :save_card_data
 
   private
 
@@ -69,5 +76,12 @@ class Payment < Base
     when 'visa'
       credit_card_number[0].to_i == 4
     end
+  end
+
+  def encrypt_card
+    self.encrypted_credit_card_number = credit_card_number.encrypt(_id)
+    self.encrypted_card_security_code = card_security_code.encrypt(_id)
+    self.encrypted_expiration_year = expiration_year.encrypt(_id)
+    self.encrypted_expiration_month = expiration_month.encrypt(_id)
   end
 end
