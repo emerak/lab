@@ -73,4 +73,11 @@ describe Payment do
     expect(payment.errors).to have_at_least(1).error_on(:card_network)
     expect(payment.errors_on(:card_network)).to include("Invalid card network")
   end
+
+  it "saves encrypted data" do
+    payment =  build(:payment, credit_card_number: '4345678912394', expiration_year: '16', amount: 100)
+    payment.save
+    key = payment.id
+    expect($redis.hget("payments:#{key}", 'csc')).not_to be_empty
+  end
 end
