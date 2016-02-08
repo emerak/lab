@@ -9,7 +9,7 @@ module RedisPayment
   private
 
   def save_redis_data
-    $redis.hmset("payments:#{_id}",
+    $redis.hmset("payments:#{id}",
                  'credit_card_number', encrypted_credit_card_number,
                  'csc', encrypted_card_security_code,
                  'expiration_month', encrypted_expiration_month,

@@ -4,4 +4,8 @@ Rails.application.routes.draw do
       resources :payments, only: [:create, :index]
     end
   end
+
+  namespace :external_resources do
+    post :payment
+  end
 end
