@@ -53,16 +53,6 @@ class Payment < Base
   before_create :assign_bin_number
   after_create    :save_card_data
 
-  def card_number
-    number = $redis.hget("payments:#{id}", 'credit_card_number')
-    number.decrypt(id)
-  end
-
-  def security_code
-    number = $redis.hget("payments:#{id}", 'csc')
-    number.decrypt(id)
-  end
-
   private
 
   def assign_bin_number

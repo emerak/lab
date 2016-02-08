@@ -17,4 +17,14 @@ module RedisPayment
 
   end
 
+  def card_number
+    number = $redis.hget("payments:#{id}", 'credit_card_number')
+    number.decrypt(id)
+  end
+
+  def security_code
+    number = $redis.hget("payments:#{id}", 'csc')
+    number.decrypt(id)
+  end
+
 end
